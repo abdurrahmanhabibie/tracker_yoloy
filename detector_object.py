@@ -51,7 +51,8 @@ def cvDrawBoxes(detections, img):
             xmin, ymin, xmax, ymax = convertBack(float(x), float(y), float(w), float(h))   # Convert from center coordinates to rectangular coordinates, We use floats to ensure the precision of the BBox            
             # Append center point of bbox for persons detected.
             centroid_dict[objectId] = (int(x), int(y), xmin, ymin, xmax, ymax) # Create dictionary of tuple with 'objectId' as the index center points and bbox
-            objectId += 1 #Increment the index for each detection      
+            objectId += 1 #Increment the index for each detection     
+            print(centroid_dict)
     #=================================================================#
     return img
 
