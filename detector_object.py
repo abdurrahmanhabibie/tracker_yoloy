@@ -104,9 +104,8 @@ def cvDrawBoxes(detections, img,):
                                         names[2] = idx[1][2]
                                         names[3] = idx[1][3]
                                     else:
-                                        names[2] = idx[1][2]
-                                        names[3] = idx[1][3]
-                                        names[4] = int(names[4])+1
+                                        temp = (idx[0], idx[1][0], idx[1][2], idx[1][3], 1)
+                                        objek = np.vstack([objek, temp])
                             if exist == False:
                                 temp = (idx[0], idx[1][0], idx[1][2], idx[1][3], 1)
                                 objek = np.vstack([objek, temp])
@@ -185,7 +184,7 @@ def YOLO():
         except Exception:
             pass
     #cap = cv2.VideoCapture(0)
-    cap = cv2.VideoCapture("./baru.mp4") #perlu diubah sesuai nama file yang diinginkan
+    cap = cv2.VideoCapture("./nama.mp4") #perlu diubah sesuai nama file yang diinginkan
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
     new_height, new_width = frame_height // 2, frame_width // 2
