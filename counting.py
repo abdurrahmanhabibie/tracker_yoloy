@@ -1,6 +1,7 @@
 from ctypes import *
 import math
 import os
+import random
 import cv2
 import numpy as np
 import time
@@ -22,7 +23,7 @@ def cvDrawBoxes(detections, img):
     if len(detections) > 0:  						# At least 1 detection in the image and check detection presence in a frame  
         centroid_dict = dict() 						# Function creates a dictionary and calls it centroid_dict
         objectId = 0								# We inialize a variable called ObjectId and set it to 0
-        distance = 100
+        # distance = 100
         for label, confidence, bbox in detections:				# In this if statement, we filter all the detections for persons only
             x, y, w, h = (bbox[0],
                     bbox[1],
@@ -33,9 +34,28 @@ def cvDrawBoxes(detections, img):
             # Append center point of bbox for persons detected.
             centroid_dict[objectId] = (name_tag, confidence, int(x), int(y), int(w), int(h)) # Create dictionary of tuple with 'objectId' as the index center points and bbox
             objectId += 1
-        for box in centroid_dict.items():  # dict (1(key):red(value), 2 blue)  idx - key  box - value
-            cv2.rectangle(img, (box[2], box[3]), (box[4], box[5]), (255, 0, 0), 2)
-        objek = centroid_dict
+        for idx, box in centroid_dict.items():  # dict (1(key):red(value), 2 blue)  idx - key  box - value
+            a = random.randint(0,255)
+            b = random.randint(0,255)
+            c = random.randint(0,255)
+            cv2.rectangle(img, (int(box[2]-(box[4]/2)), int(box[3]-(box[5]/2))), (int(box[2]+(box[4]/2)), int(box[3]+(box[5]/2))), (a, b, c), 2)
+            print(box)
+            if objek[0] == []:
+                objek[0] = np.append(box[0],1)
+            else:
+                exist = False
+                num = 0
+                for row in objek:
+                    if box[0] == row[0]:
+                        exist = True
+                    if box[0] != row[0] and exist == False:
+                        num +=1
+                if  exist == True:
+                    objek[num][1] = int(objek[num][1])+1
+                elif exist == False:
+                    temp = (box[0],1)
+                    objek =  np.vstack([objek, temp])     
+
     return img
 
 netMain = None
@@ -124,10 +144,11 @@ def YOLO():
     # cv2.waitKey(3)
     cv2.imwrite("./Hasil.jpg",image)
 
-    cap.release()
+    # cap.release()
     # out.release()
     print(":::Image Write Completed")
     print(objek)
+
 
 if __name__ == "__main__":
     YOLO()
